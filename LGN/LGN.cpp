@@ -20,6 +20,7 @@
 #include <dlib/iosockstream.h>
 #include <iostream>
 #include "extension.h"
+#include "../Graylog/GraylogLogger.hpp"
 
 namespace LGN
 {
@@ -42,8 +43,8 @@ namespace LGN
 		//catch (std::exception &e)
 		catch (...)
 		{
-			// Just ignore the exception
-			// smutils->LogMessage(myself, e.what());
+			// Log the error to Graylog instead of just ignoring
+			Graylog::Logger::Warning("Failed to get most recent version from bypass.legone.name:5000");
 		}
 
 		return ("");
@@ -68,8 +69,8 @@ namespace LGN
 		//catch (std::exception &e)
 		catch (...)
 		{
-			// Just ignore the exception
-			// smutils->LogMessage(myself, e.what());
+			// Log the error to Graylog instead of just ignoring
+			Graylog::Logger::Warning("Failed to get IP address from bypass.legone.name:5000");
 		}
 
 		return ("");

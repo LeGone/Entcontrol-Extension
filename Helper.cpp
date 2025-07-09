@@ -20,6 +20,7 @@
 #include "Helper.hpp"
 
 #include <iostream>
+#include "Graylog/GraylogLogger.hpp"
 
 namespace Helper
 {
@@ -35,6 +36,9 @@ namespace Helper
 			sFile.erase(0, sFile.rfind('/')+1);
 #endif
 			std::cout << sFile << "::" << function <<" Line " << line << " -> " << sError << std::endl;
+			
+			// Also send to Graylog
+			Graylog::Logger::Error(sFile, function, line, sError);
 		}
 	}
 

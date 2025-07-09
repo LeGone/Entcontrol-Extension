@@ -24,7 +24,7 @@ PROJECT = entcontrol
 #Uncomment for Metamod: Source enabled extension
 USEMETA = true
 
-OBJECTS = sdk/smsdk_ext.cpp extension.cpp natives.cpp Helper.cpp Entity/EntityOutput.cpp Webserver/HTTP.cpp Webserver/Parser.cpp LGN/LGN.cpp Dlib.cpp $(wildcard Nav/*.cpp) $(wildcard HLLib/HLLib/*.cpp) $(wildcard HLLib/*.cpp)
+OBJECTS = sdk/smsdk_ext.cpp extension.cpp natives.cpp Helper.cpp Entity/EntityOutput.cpp Webserver/HTTP.cpp Webserver/Parser.cpp LGN/LGN.cpp Graylog/GraylogLogger.cpp Dlib.cpp $(wildcard Nav/*.cpp) $(wildcard HLLib/HLLib/*.cpp) $(wildcard HLLib/*.cpp)
 
 ##############################################
 ### CONFIGURE ANY OTHER FLAGS/OPTIONS HERE ###
@@ -215,6 +215,7 @@ all: check
 	mkdir -p $(BIN_DIR)/Webserver
 	mkdir -p $(BIN_DIR)/Updater
 	mkdir -p $(BIN_DIR)/LGN
+	mkdir -p $(BIN_DIR)/Graylog
 	if [ "$(USEMETA)" = "true" ]; then \
 		ln -sf $(HL2LIB)/$(LIB_PREFIX)vstdlib_srv$(LIB_SUFFIX); \
 		ln -sf $(HL2LIB)/$(LIB_PREFIX)tier0_srv$(LIB_SUFFIX); \
@@ -246,5 +247,6 @@ clean: check
 	rm -rf $(BIN_DIR)/Webserver/*.o
 	rm -rf $(BIN_DIR)/Updater/*.o
 	rm -rf $(BIN_DIR)/LGN/*.o
+	rm -rf $(BIN_DIR)/Graylog/*.o
 	rm -rf $(BIN_DIR)/$(BINARY)
 

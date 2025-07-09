@@ -25,6 +25,9 @@
 // Updater
 #include "LGN/LGN.hpp"
 
+// Graylog Logger
+#include "Graylog/GraylogLogger.hpp"
+
 /**
  * @file extension.cpp
  * @brief Implement extension code here.
@@ -44,6 +47,10 @@ ISDKTools *g_pSDKTools;
 
 ConVar sm_entcontrol_http_port("sm_entcontrol_http_port", "0", FCVAR_NOTIFY, "0=use gameserverport(windows only|e.g.27015).");
 ConVar sm_entcontrol_http_enabled("sm_entcontrol_http_enabled", "0", FCVAR_NOTIFY, "0=disable webserver|1=enable/start webserver");
+ConVar sm_entcontrol_graylog_server("sm_entcontrol_graylog_server", "", FCVAR_NOTIFY, "Graylog server hostname or IP address");
+ConVar sm_entcontrol_graylog_port("sm_entcontrol_graylog_port", "12201", FCVAR_NOTIFY, "Graylog server port (default 12201)");
+ConVar sm_entcontrol_graylog_enabled("sm_entcontrol_graylog_enabled", "0", FCVAR_NOTIFY, "0=disable graylog|1=enable graylog logging");
+ConVar sm_entcontrol_graylog_use_https("sm_entcontrol_graylog_use_https", "1", FCVAR_NOTIFY, "0=use HTTP|1=use HTTPS for graylog communication");
 
 void EntControl::SDK_OnAllLoaded()
 {
@@ -54,20 +61,24 @@ void EntControl::SDK_OnAllLoaded()
 	if (g_pSDKTools == NULL)
 	{
 		smutils->LogError(myself, "SDKTools interface not found. TerminateRound native disabled.");
+		Graylog::Logger::Critical("SDKTools interface not found. TerminateRound native disabled.");
 	}
 	else if (g_pSDKTools->GetInterfaceVersion() < 2)
 	{
 		//<psychonic> THIS ISN'T DA LIMBO STICK. LOW IS BAD
 		smutils->LogError(myself, "SDKTools interface is outdated. TerminateRound native disabled.");
+		Graylog::Logger::Critical("SDKTools interface is outdated. TerminateRound native disabled.");
 	}
 	
 	HTTP::CreateForwards();
+	Graylog::Logger::Initialize();
 }
 
 void EntControl::SDK_OnUnload()
 {
 	HTTP::Stop();
 	HTTP::ReleaseForwards();
+	Graylog::Logger::Shutdown();
 }
 
 class BaseAccessor : public IConCommandBaseAccessor
@@ -89,8 +100,11 @@ void EntControl::OnCoreMapStart(edict_t *pEdictList, int edictCount, int clientM
 	{
 		if (newVersion != SMEXT_CONF_VERSION)
 		{
-			smutils->LogMessage(myself, ("New Entcontrol-Version! Your version:" + std::string(SMEXT_CONF_VERSION) + " New version:" + newVersion).c_str());
+			std::string message = "New Entcontrol-Version! Your version:" + std::string(SMEXT_CONF_VERSION) + " New version:" + newVersion;
+			smutils->LogMessage(myself, message.c_str());
 			smutils->LogMessage(myself, "Please download the latest version from https://forums.alliedmods.net/showthread.php?t=157075 or take a look at http://www.legone.name/entcontrol");
+			Graylog::Logger::Info(message);
+			Graylog::Logger::Info("Please download the latest version from https://forums.alliedmods.net/showthread.php?t=157075 or take a look at http://www.legone.name/entcontrol");
 		}
 	}
 
