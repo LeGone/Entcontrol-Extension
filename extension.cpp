@@ -51,6 +51,7 @@ ConVar sm_entcontrol_graylog_server("sm_entcontrol_graylog_server", "", FCVAR_NO
 ConVar sm_entcontrol_graylog_port("sm_entcontrol_graylog_port", "12201", FCVAR_NOTIFY, "Graylog server port (default 12201)");
 ConVar sm_entcontrol_graylog_enabled("sm_entcontrol_graylog_enabled", "0", FCVAR_NOTIFY, "0=disable graylog|1=enable graylog logging");
 ConVar sm_entcontrol_graylog_use_https("sm_entcontrol_graylog_use_https", "1", FCVAR_NOTIFY, "0=use HTTP|1=use HTTPS for graylog communication");
+ConVar sm_entcontrol_graylog_endpoint("sm_entcontrol_graylog_endpoint", "/gelf", FCVAR_NOTIFY, "Graylog GELF endpoint path (default /gelf)");
 
 void EntControl::SDK_OnAllLoaded()
 {

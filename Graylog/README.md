@@ -11,7 +11,7 @@ The following ConVars are available to configure Graylog logging:
 - `sm_entcontrol_graylog_server` - Graylog server hostname or IP address (default: empty)
 - `sm_entcontrol_graylog_port` - Graylog server port (default: 12201)
 - `sm_entcontrol_graylog_enabled` - Enable/disable Graylog logging (0=disabled, 1=enabled)
-- `sm_entcontrol_graylog_use_https` - Use HTTPS for communication (0=HTTP, 1=HTTPS, default: 1)
+- `sm_entcontrol_graylog_endpoint` - Graylog GELF endpoint path (default: /gelf)
 
 ## Example Configuration
 
@@ -20,6 +20,7 @@ sm_entcontrol_graylog_server "graylog.example.com"
 sm_entcontrol_graylog_port "12201"
 sm_entcontrol_graylog_enabled "1"
 sm_entcontrol_graylog_use_https "1"
+sm_entcontrol_graylog_endpoint "/gelf"
 ```
 
 ## Features

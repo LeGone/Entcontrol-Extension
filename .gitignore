@@ -1,0 +1,29 @@
+# Build artifacts
+Release*/
+Debug*/
+*.o
+*.so
+*.dylib
+*.dll
+*.exe
+
+# Symbolic links created by build system
+libtier0_srv.so
+libtier1_srv.so
+libvstdlib_srv.so
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.log

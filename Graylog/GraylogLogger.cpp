@@ -29,6 +29,7 @@ extern ConVar sm_entcontrol_graylog_server;
 extern ConVar sm_entcontrol_graylog_port;
 extern ConVar sm_entcontrol_graylog_enabled;
 extern ConVar sm_entcontrol_graylog_use_https;
+extern ConVar sm_entcontrol_graylog_endpoint;
 
 namespace Graylog
 {
@@ -109,6 +110,7 @@ namespace Graylog
 		std::string server = sm_entcontrol_graylog_server.GetString();
 		int port = sm_entcontrol_graylog_port.GetInt();
 		bool useHttps = sm_entcontrol_graylog_use_https.GetBool();
+		std::string endpoint = sm_entcontrol_graylog_endpoint.GetString();
 
 		if (server.empty() || port <= 0)
 			return;
@@ -126,7 +128,7 @@ namespace Graylog
 			
 			std::string protocol = useHttps ? "HTTPS" : "HTTP";
 			
-			stream << "POST /gelf HTTP/1.1\r\n"
+			stream << "POST " << endpoint << " HTTP/1.1\r\n"
 				   << "Host: " << server << ":" << port << "\r\n"
 				   << "Content-Type: application/json\r\n"
 				   << "Content-Length: " << gelfMessage.length() << "\r\n"
